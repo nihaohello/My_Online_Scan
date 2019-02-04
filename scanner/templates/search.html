@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main">
+    <div class="row">
+		<div class="col-md-12">
+			<div class="text-wrap">
+				搜索&利用
+			</div>
+		</div>
+	</div>
+    <div class="row">
+		<div class="col-lg-12">
+			<div class="input-group input-group-lg">
+				<input type="text" id="keyword_url" class="form-control" aria-label="...">
+				<div class="input-group-btn">
+					<button type="button" id="search_exploit" class="btn btn-info btn-lg search-btn" aria-haspopup="true" aria-expanded="false"><b>搜索</b></button>
+				</div>
+			</div>
+		</div>
+    </div>
+    <br><br>
+    <div class="row">
+		<div class="col-lg-12">
+			<div class="input-group input-group-lg">
+				<input type="text" id="url" class="form-control" aria-label="...">
+				<div class="input-group-btn">
+					<button type="button" id="exploit" class="btn btn-info btn-lg search-btn" aria-haspopup="true" aria-expanded="false"><b>利用</b></button>
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="row main-panel">
+        <div class="col-md-1"></div>
+			<div class="col-md-10" id="whenerr">
+				<div id="color" class="panel panel-primary">
+					<div class="panel-heading" id="result">
+						结果：
+					</div>
+                </div>
+            </div>
+    </div>
+    <div class="row">
+		<div class="col-md-10">
+			<div class="text-wrap">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+cmspocdict = {{data.cms}}
+hardwarepocdict = {{data.hardware}}
+industrialpocdict = {{data.industrial}}
+informationpocdict = {{data.information}}
+systempocdict = {{data.system}}
+</script>
+<script>
+poclist={'cms':[],'information':[],'industrial':[],'system':[],'hardware':[]}
+exploitlist=[]
+function inputcheck(){
+        input_val=$('#keyword_url').val();
+        if(input_val == '') {
+            alert('请输入内容');
+            return false;
+        }else{
+            return true;
+        }
+}
+function request(url,type,apipath,id,pocname){
+    $.post(apipath,JSON.stringify({"url":url,"type":type}),function (results){
+    	if(results.status){
+    		$('#'+id).remove()
+    		$('#result').after('<ul class="list-group" id="'+id+'"><li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
+    		pocname+'</span></li><li class="list-group-item"><span class="text-success">'+
+    		results.pocresult+'</span></li></ul>')
+    	}else{
+    		$("#"+id).html('<li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
+    		pocname+'</span></li><li class="list-group-item"><span class="text-danger">[-]未发现异常： '+
+    		pocname+'</span></li>')
+    	}
+    },"json");
+}
+$(function() {
+    $('#search_exploit').click(function() {
+        poclist={'cms':[],'information':[],'industrial':[],'system':[],'hardware':[]}
+        $('#whenerr').html('<div id="color" class="panel panel-primary"><div class="panel-heading" id="result">结果：</div></div>')
+        if(inputcheck()){
+            keyword=$('#keyword_url').val()
+            for(var i in cmspocdict){if (cmspocdict[i].toLowerCase().indexOf(keyword.toLowerCase())>=0){poclist.cms.push(i)}}
+            for(var i in informationpocdict){if (informationpocdict[i].toLowerCase().indexOf(keyword.toLowerCase())>=0){poclist.information.push(i)}}
+            for(var i in industrialpocdict){if (industrialpocdict[i].toLowerCase().indexOf(keyword.toLowerCase())>=0){poclist.industrial.push(i)}}
+            for(var i in systempocdict){if (systempocdict[i].toLowerCase().indexOf(keyword.toLowerCase())>=0){poclist.system.push(i)}}
+            for(var i in hardwarepocdict){if (hardwarepocdict[i].toLowerCase().indexOf(keyword.toLowerCase())>=0){poclist.hardware.push(i)}}
+            if(isNaN(poclist.cms+poclist.information+poclist.industrial+poclist.system+poclist.hardware)){
+                panel='<div class="panel-heading" id="result">结果：</div>'
+                for (var key in poclist){
+                    for (var count in poclist[key]){
+                        panel+='<ul class="list-group" id="'+key+'_'+count+'"><li class="list-group-item"><span class="text-primary">'+eval(key+'pocdict')[poclist[key][count]]+'</span></li></ul>'
+                    }
+                    $("#color").html(panel)
+                }
+                exploitlist=poclist
+            }else{
+                $('#whenerr').html('<div id="colo" class="panel panel-danger"><div class="panel-heading" id="ti">提示：</div><div class="panel-body" id="re" style="word-wrap:break-word; word-break:break-all;display:block">未搜索到漏洞信息</div></div>')
+            }
+        }
+    });
+    $('#exploit').click(function() {
+        if(isNaN(exploitlist.cms+exploit.information+exploit.system+exploit.industrial+exploit.hardware)){
+              for(var key in exploitlist){
+                for (var i in exploitlist[key]){
+                  url=$('#url').val()
+                  type=+exploitlist[key][i]
+                  apipath="/api/"+key
+                  id=key+"_"+i
+                  pocname=eval(key+"pocdict")[type]
+                  request(url,type,apipath,id,pocname)
+                }
+              }
+        }else{
+          $('#whenerr').html('<div id="colo" class="panel panel-danger"><div class="panel-heading" id="ti">提示：</div><div class="panel-body" id="re" style="word-wrap:break-word; word-break:break-all;display:block">未搜索到漏洞信息</div></div>')
+        }
+    });
+});
+</script>
+{% endblock %}

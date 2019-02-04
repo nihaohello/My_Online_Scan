@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="text-wrap">
+				利用hackertarget免费api接口进行信息收集
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="input-group-lg">
+				<input type="text" id="url" class="form-control" aria-label="..." name="url">
+                <input type="hidden" id="ip" class="form-control" aria-label="..." name="ip">
+                <br>
+                <center>
+                    <!--<button type="button" id="httpHeader" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>HTTP header information</b></button>
+                    <button type="button" id="Trace_Route" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>Trace Route</b></button>
+                &nbsp;&nbsp;<button type="button" id="Whois_Information" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>Whois Information</b></button>
+                &nbsp;&nbsp;<button type="button" id="DNS_server_record" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>DNS server record</b></button>
+                &nbsp;&nbsp;<button type="button" id="Nmap_running_services" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>Nmap- running services</b></button>
+                &nbsp;&nbsp;<button type="button" id="Website_on_the_same_server" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>Website on the same server</b></button>
+                &nbsp;&nbsp;<button type="button" id="Reverse_IP_Address" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>Reverse IP Address</b></button>
+			    &nbsp;&nbsp;<button type="button" id="Page_Links" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>Page Links</b></button>
+                    -->
+                    <button type="button" id="hackertartget_All" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>一键全部执行</b></button>
+                    <a href="" id="download" class="btn btn-info btn-lg" download="result.txt"><b>导出</b></a>
+                </center>
+            </div>
+		</div>
+    </div>
+    <form action="/api/download" method="post" id="saveform">
+        <input type="hidden" id="save" name="save">
+    </form>
+    <div class="row main-panel output">
+        <div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div id="color" class="panel panel-primary">
+					<div class="panel-heading" id="result">
+						结果：
+					</div>
+                    <table class="table table-hover" >
+                        <thead>
+                            <tr>
+                                <th>contents:</th>
+                            </tr>
+                        </thead>
+                    <tbody id="t_body">
+                    <!--output-->
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+    <div class="row">
+		<div class="col-md-10">
+			<div class="text-wrap">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
+		</div>
+	</div>
+</div><br><br><br><br><br>
+    <script type="text/javascript">
+    var url="";
+    var ip="";
+    var daochu="";
+    var query="/api/hackertartget_Alls";
+    add_res="";
+
+function hackertartget_Alls(url){
+    $("#t_body").html(JSON.stringify([{"url":url}]));
+    $.post(query,JSON.stringify([{"url":url,"type":"1"}]),function (results){
+        $("#result").html("获取中1:")
+        if(results){
+            /*for(var i in results){
+                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
+                daochu+=results[i]+"\r\n"
+            }*/
+            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
+        }else{
+            $("#t_body").html("没有结果或到了ip100上线");
+        }
+    },"json");
+    $.post(query,JSON.stringify([{"url":url,"type":"2"}]),function (results){
+        $("#result").html("获取中2:")
+        if(results){
+            /*for(var i in results){
+                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
+                daochu+=results[i]+"\r\n"
+            }*/
+            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
+        }else{
+            $("#t_body").html("没有结果或到了ip100上线");
+        }
+    },"json");
+    $.post(query,JSON.stringify([{"url":url,"type":"3"}]),function (results){
+        $("#result").html("获取中3:")
+        if(results){
+            /*for(var i in results){
+                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
+                daochu+=results[i]+"\r\n"
+            }*/
+            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
+        }else{
+            $("#t_body").html("没有结果或到了ip100上线");
+        }
+    },"json");
+    $.post(query,JSON.stringify([{"url":url,"type":"4"}]),function (results){
+        $("#result").html("获取中4:")
+        if(results){
+            /*for(var i in results){
+                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
+                daochu+=results[i]+"\r\n"
+            }*/
+            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
+        }else{
+            $("#t_body").html("没有结果或到了ip100上线");
+        }
+    },"json");
+    $.post(query,JSON.stringify([{"url":url,"type":"5"}]),function (results){
+        $("#result").html("获取中5:")
+        if(results){
+            /*for(var i in results){
+                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
+                daochu+=results[i]+"\r\n"
+            }*/
+            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
+        }else{
+            $("#t_body").html("没有结果或到了ip100上线");
+        }
+    },"json");
+    $.post(query,JSON.stringify([{"url":url,"type":"6"}]),function (results){
+        $("#result").html("获取中6:")
+        if(results){
+            /*for(var i in results){
+                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
+                daochu+=results[i]+"\r\n"
+            }*/
+            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
+        }else{
+            $("#t_body").html("没有结果或到了ip100上线");
+        }
+    },"json");
+    $.post(query,JSON.stringify([{"url":url,"type":"7"}]),function (results){
+        $("#result").html("获取中7:")
+        if(results){
+            /*for(var i in results){
+                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
+                daochu+=results[i]+"\r\n"
+            }*/
+            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
+        }else{
+            $("#t_body").html("没有结果或到了ip100上线");
+        }
+    },"json");
+    $.post(query,JSON.stringify([{"url":url,"type":"8"}]),function (results){
+        $("#result").html("获取中8:")
+        if(results){
+            /*for(var i in results){
+                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
+                daochu+=results[i]+"\r\n"
+            }*/
+            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
+        }else{
+            $("#t_body").html("没有结果或到了ip100上线");
+        }
+    },"json");
+    $.post(query,JSON.stringify([{"url":url,"type":"9"}]),function (results){
+        $("#result").html("获取中9:")
+        if(results){
+            /*for(var i in results){
+                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
+                daochu+=results[i]+"\r\n"
+            }*/
+            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
+        }else{
+            $("#t_body").html("没有结果或到了ip100上线");
+        }
+    },"json");
+    $.post(query,JSON.stringify([{"url":url,"type":"10"}]),function (results){
+        $("#result").html("获取中10:")
+        if(results){
+            /*for(var i in results){
+                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
+                daochu+=results[i]+"\r\n"
+            }*/
+            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
+        }else{
+            $("#t_body").html("没有结果或到了ip100上线");
+        }
+    },"json");
+}
+
+
+
+$(function() {
+    $("#hackertartget_All").click(function() {
+        $("#t_body").html("")
+        var url=$("#url").val();
+        if(urlcheck()){
+            hackertartget_Alls(url)
+        }
+    });
+
+
+    $("#download").click(function(){
+        $('#download').attr("href","data:text/plain;base64,"+btoa(daochu))
+    });
+});
+
+
+
+</script>
+
+
+{% endblock %}

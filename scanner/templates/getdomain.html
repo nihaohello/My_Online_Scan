@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="text-wrap">
+				获取旁站/c段
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="input-group-lg">
+				<input type="text" id="url" class="form-control" aria-label="..." name="url">
+                <input type="hidden" id="ip" class="form-control" aria-label="..." name="ip">
+                <br>
+                <center>
+                &nbsp;&nbsp;<button type="button" id="pang" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>旁站</b></button>
+			    &nbsp;&nbsp;<button type="button" id="cadd" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>C段</b></button>
+                &nbsp;&nbsp;<a href="" id="download" class="btn btn-info btn-lg" download="result.txt"><b>导出</b></a>
+                </center>
+            </div>
+		</div>
+    </div>
+    <form action="/api/download" method="post" id="saveform">
+        <input type="hidden" id="save" name="save">
+    </form>
+    <div class="row main-panel output">
+        <div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div id="color" class="panel panel-primary">
+					<div class="panel-heading" id="result">
+						结果：
+					</div>
+                    <table class="table table-hover" >
+                        <thead>
+                            <tr>
+                                <th>网址</th>
+                                <th>标题</th>
+                            </tr>
+                        </thead>
+                    <tbody id="t_body">
+                    <!--output-->
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+    <div class="row">
+		<div class="col-md-10">
+			<div class="text-wrap">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
+		</div>
+	</div>
+</div><br><br><br><br><br>
+    <script type="text/javascript">
+    var url2ip="/api/domain2ip";
+    var query="/api/query";
+    var url="";
+    var ip="";
+    var daochu="";
+    jindu=0
+    add_res="";
+
+function request(ip,all){
+    $.post(query,JSON.stringify([{"ip":ip}]),function (results){
+        jindu+=1
+        $("#result").html("获取中：   已完成:"+toPercent(jindu/all))
+        if(results){
+            lengths=results.length;
+            add_res+="<tr><td>ip:  "+ip+"</td></tr>";
+            for(var i in results){
+                add_res="<tr><td><a href='"+results[i].domain+"'>"+results[i].domain+"</a></td><td>"+results[i].title+"</td></tr>"+add_res;
+                daochu+=results[i].domain+"\r\n"
+                $("#t_body").html(add_res);
+            }
+        }else{
+            add_res+="<tr><td>ip:"+ip+", 结果为 0</td></tr>";
+            $("#t_body").html(add_res);
+        }
+    },"json");
+}
+
+
+
+function req(url,type){
+    jindu=0
+    daochu=""
+    if(type==1){
+        $.post(url2ip,JSON.stringify([{"domain":url}]),function(data){
+            ip=data[0].ip
+            if(ip){
+                request(ip,1)
+            }else{
+                alert("获取ip失败")
+            }
+        },"json");
+    }else{
+        $.post(url2ip,JSON.stringify([{"domain":url}]),function(data){
+            ip=data[0].ip
+            var arr = ip.split(".");
+            if(ip){
+                for(var count=1;count<255;count++){
+                        var ips = arr[0] + "." + arr[1] + "." + arr[2] + "." + count;
+                        request(ips,253)
+                }
+            }else{
+                alert("获取ip失败");
+            }
+        },"json");
+    }
+
+}
+
+
+$(function() {
+    $("#pang").click(function() {
+        add_res=""
+        $("#t_body").html("")
+        var url=$("#url").val();
+        if(urlcheck()){
+            req(url,1)
+        }
+    });
+
+    $("#cadd").click(function() {
+        add_res=""
+        $("#t_body").html("")
+        var url=$("#url").val();
+        if(urlcheck()){
+            req(url,0)
+        }
+    });
+
+    $("#download").click(function(){
+        $('#download').attr("href","data:text/plain;base64,"+btoa(daochu))
+    });
+});
+
+
+
+</script>
+
+
+{% endblock %}
