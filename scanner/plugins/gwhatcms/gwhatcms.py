@@ -8,14 +8,12 @@ import os
 from gevent.queue import Queue
 import time
 
-current_path = os.path.dirname(__file__)
-print(current_path)
+current_path = os.path.abspath(os.path.dirname(__file__))
 class gwhatweb(object):
     def __init__(self, url):
         self.whatcms_result = []
         self.tasks = Queue()
         self.url = url.rstrip("/")
-        print(current_path)
         data_file_name=current_path + '/data.json'
         fp = open(data_file_name,encoding="utf-8")
         webdata = json.load(fp, encoding="utf-8")
@@ -78,9 +76,11 @@ class gwhatweb(object):
         end = time.time()
         #print ("cost: %f s" % (end - start))
         whatcms_time=(end-start)
+        self.whatcms_result.append("耗费时间：")
         self.whatcms_result.append(whatcms_time)
         return {'total':self.whatcms_result,"url":self.url}
 #return {'total':1424,'url':self.url,'result':"CMS: "+content['CMS']+",JavaScript Frameworks: "+content['JavaScript Frameworks'][0]+",Web Servers: "+content["Web Servers"][0],'time':'%.3f s' % self.time}
+#print(current_path)
 #a=gwhatweb("http://www.naivete.online").whatweb(1000)
 #print(a)
 

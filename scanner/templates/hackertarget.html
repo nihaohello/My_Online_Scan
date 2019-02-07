@@ -38,8 +38,11 @@
 			<div class="col-md-10">
 				<div id="color" class="panel panel-primary">
 					<div class="panel-heading" id="result">
-						结果：
+						提示：
 					</div>
+                    <div class="panel-body" id="notice" style="word-wrap:break-word; word-break:break-all;display:block">
+                        最好输入www.baidu.com格式，而不是http://www.baidu.com格式，api才能识别<br><br>
+                        </div>
                     <table class="table table-hover" >
                         <thead>
                             <tr>
@@ -67,139 +70,186 @@
     var daochu="";
     var query="/api/hackertartget_Alls";
     add_res="";
-
+    var strs= new Array();
+function sleep(d){
+  for(var t = Date.now();Date.now() - t <= d;);
+}
+//sleep(2000); //当前方法暂停5秒
+//setTimeout( function(){alert(("1"))}, 5 * 1000 );
 function hackertartget_Alls(url){
     $("#t_body").html(JSON.stringify([{"url":url}]));
     $.post(query,JSON.stringify([{"url":url,"type":"1"}]),function (results){
+        add_tmp="";
         $("#result").html("获取中1:")
         if(results){
-            /*for(var i in results){
-                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
-                daochu+=results[i]+"\r\n"
-            }*/
-            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            add_tmp=add_tmp+"header information:"+"<br>";
+            strs=results.split("\r\n");
+            for(var i=0; i<=strs.length-1;i++){
+                add_tmp=add_tmp+"<br>"+strs[i];
+            }
+            add_res="<tr><td>"+add_tmp+"</td></tr>"+add_res;
             $("#t_body").html(add_res);
         }else{
-            $("#t_body").html("没有结果或到了ip100上线");
+            add_res="<tr><td>"+"没有结果或到了ip100上线"+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
         }
     },"json");
+    sleep(2000);
     $.post(query,JSON.stringify([{"url":url,"type":"2"}]),function (results){
         $("#result").html("获取中2:")
+        add_tmp="";
         if(results){
-            /*for(var i in results){
-                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
-                daochu+=results[i]+"\r\n"
-            }*/
-            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            add_tmp=add_tmp+"reverseiplookup:"+"<br>";
+            strs=results.split("\r\n");
+            for(var i=0; i<=strs.length-1;i++){
+                add_tmp=add_tmp+"<br>"+strs[i];
+            }
+            add_res="<tr><td>"+add_tmp+"</td></tr>"+add_res;
             $("#t_body").html(add_res);
         }else{
-            $("#t_body").html("没有结果或到了ip100上线");
+            add_res="<tr><td>"+"没有结果或到了ip100上线"+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
         }
     },"json");
+    sleep(2000);
     $.post(query,JSON.stringify([{"url":url,"type":"3"}]),function (results){
         $("#result").html("获取中3:")
+        add_tmp="";
         if(results){
-            /*for(var i in results){
-                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
-                daochu+=results[i]+"\r\n"
-            }*/
-            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            add_tmp=add_tmp+"mtr:"+"<br>";
+            strs=results.split("\n");
+            for(var i=0; i<=strs.length-1;i++){
+                add_tmp=add_tmp+"<br>"+strs[i];
+            }
+            add_res="<tr><td>"+add_tmp+"</td></tr>"+add_res;
             $("#t_body").html(add_res);
         }else{
-            $("#t_body").html("没有结果或到了ip100上线");
+            add_res="<tr><td>"+"没有结果或到了ip100上线"+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
         }
     },"json");
+    sleep(2000);
+
     $.post(query,JSON.stringify([{"url":url,"type":"4"}]),function (results){
-        $("#result").html("获取中4:")
+        $("#result").html("获取中4:");
+        add_tmp="";
         if(results){
-            /*for(var i in results){
-                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
-                daochu+=results[i]+"\r\n"
-            }*/
-            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            add_tmp=add_tmp+"whois:"+"<br>";
+            strs=results.split("\n");
+            for(var i=0; i<=strs.length-1;i++){
+                add_tmp=add_tmp+"<br>"+strs[i];
+            }
+            add_res="<tr><td>"+add_tmp+"</td></tr>"+add_res;
             $("#t_body").html(add_res);
         }else{
-            $("#t_body").html("没有结果或到了ip100上线");
+            add_res="<tr><td>"+"没有结果或到了ip100上线"+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
         }
     },"json");
+    sleep(2000);
     $.post(query,JSON.stringify([{"url":url,"type":"5"}]),function (results){
         $("#result").html("获取中5:")
+        add_tmp="";
         if(results){
-            /*for(var i in results){
-                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
-                daochu+=results[i]+"\r\n"
-            }*/
-            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            add_tmp=add_tmp+"dnslookup:"+"<br>";
+           strs=results.split("\n");
+            for(var i=0; i<=strs.length-1;i++){
+                add_tmp=add_tmp+"<br>"+strs[i];
+            }
+            add_res="<tr><td>"+add_tmp+"</td></tr>"+add_res;
             $("#t_body").html(add_res);
         }else{
-            $("#t_body").html("没有结果或到了ip100上线");
+            add_res="<tr><td>"+"没有结果或到了ip100上线"+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
         }
     },"json");
+    sleep(2000);
     $.post(query,JSON.stringify([{"url":url,"type":"6"}]),function (results){
         $("#result").html("获取中6:")
+        add_tmp="";
         if(results){
-            /*for(var i in results){
-                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
-                daochu+=results[i]+"\r\n"
-            }*/
-            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            add_tmp=add_tmp+"reversedns:"+"<br>";
+            strs=results.split("\n");
+            for(var i=0; i<=strs.length-1;i++){
+                add_tmp=add_tmp+"<br>"+strs[i];
+            }
+            add_res="<tr><td>"+add_tmp+"</td></tr>"+add_res;
             $("#t_body").html(add_res);
         }else{
-            $("#t_body").html("没有结果或到了ip100上线");
+            add_res="<tr><td>"+"没有结果或到了ip100上线"+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
         }
     },"json");
+    sleep(2000);
     $.post(query,JSON.stringify([{"url":url,"type":"7"}]),function (results){
         $("#result").html("获取中7:")
+        add_tmp="";
         if(results){
-            /*for(var i in results){
-                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
-                daochu+=results[i]+"\r\n"
-            }*/
-            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            add_tmp=add_tmp+"geoip:"+"<br>";
+            strs=results.split("\n");
+            for(var i=0; i<=strs.length-1;i++){
+                add_tmp=add_tmp+"<br>"+strs[i];
+            }
+            add_res="<tr><td>"+add_tmp+"</td></tr>"+add_res;
             $("#t_body").html(add_res);
         }else{
-            $("#t_body").html("没有结果或到了ip100上线");
+            add_res="<tr><td>"+"没有结果或到了ip100上线"+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
         }
     },"json");
+    sleep(2000);
     $.post(query,JSON.stringify([{"url":url,"type":"8"}]),function (results){
         $("#result").html("获取中8:")
+        add_tmp="";
         if(results){
-            /*for(var i in results){
-                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
-                daochu+=results[i]+"\r\n"
-            }*/
-            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            add_tmp=add_tmp+"nmap:"+"<br>";
+            strs=results.split("\n");
+            for(var i=0; i<=strs.length-1;i++){
+                add_tmp=add_tmp+"<br>"+strs[i];
+            }
+            add_res="<tr><td>"+add_tmp+"</td></tr>"+add_res;
             $("#t_body").html(add_res);
         }else{
-            $("#t_body").html("没有结果或到了ip100上线");
+           add_res="<tr><td>"+"没有结果或到了ip100上线"+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
         }
     },"json");
+    sleep(2000);
     $.post(query,JSON.stringify([{"url":url,"type":"9"}]),function (results){
         $("#result").html("获取中9:")
+        add_tmp="";
         if(results){
-            /*for(var i in results){
-                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
-                daochu+=results[i]+"\r\n"
-            }*/
-            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            add_tmp=add_tmp+"findshareddns:"+"<br>";
+            strs=results.split("\n");
+            for(var i=0; i<=strs.length-1;i++){
+                add_tmp=add_tmp+"<br>"+strs[i];
+            }
+            add_res="<tr><td>"+add_tmp+"</td></tr>"+add_res;
             $("#t_body").html(add_res);
         }else{
-            $("#t_body").html("没有结果或到了ip100上线");
+            add_res="<tr><td>"+"没有结果或到了ip100上线"+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
         }
     },"json");
+    sleep(2000);
     $.post(query,JSON.stringify([{"url":url,"type":"10"}]),function (results){
         $("#result").html("获取中10:")
+        add_tmp="";
         if(results){
-            /*for(var i in results){
-                add_res="<tr><td>"+results[i]+"</td></tr>"+add_res;
-                daochu+=results[i]+"\r\n"
-            }*/
-            add_res="<tr><td>"+results+"</td></tr>"+add_res;
+            add_tmp=add_tmp+"pagelinks:"+"<br>";
+            strs=results.split("\n");
+            for(var i=0; i<=strs.length-1;i++){
+                add_tmp=add_tmp+"<br>"+strs[i];
+            }
+            add_res="<tr><td>"+add_tmp+"</td></tr>"+add_res;
             $("#t_body").html(add_res);
         }else{
-            $("#t_body").html("没有结果或到了ip100上线");
+            add_res="<tr><td>"+"没有结果或到了ip100上线"+"</td></tr>"+add_res;
+            $("#t_body").html(add_res);
         }
     },"json");
+    sleep(2000);
+
 }
 
 

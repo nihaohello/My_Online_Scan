@@ -73,14 +73,14 @@
 <script type="text/javascript">
 var add_res="";
 var query="/api/whatcms"
-var temp="aaaa"
+var temp="没有poc到合适cms样本"
 function requestss(url){
     $("#t_body").html(JSON.stringify([{"url":url}]))
-    $("#result").html("运行脚本时间较长，一下:");
+    $("#result").html("运行脚本时间较长，等一下:");
     $.post(query,JSON.stringify([{"url":url}]),function (results){
         $("#result").html("获取中:");
         if(results){
-            add_res="<tr><td>"+results+"</td></tr>";
+            add_res="<tr><td>"+JSON.stringify(results)+"</td></tr>";
             $("#t_body").html(add_res);
         }else{
             add_res+="<tr><td>"+temp+"</td></tr>";

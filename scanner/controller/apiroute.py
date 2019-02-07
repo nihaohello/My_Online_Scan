@@ -1,6 +1,7 @@
 from ..app import json,requests,request,make_response,socket,jsonify,Blueprint,plugins
 from ..plugins.gwhatcms.gwhatcms import gwhatweb
-
+import os
+import time
 api = Blueprint('api', __name__)
 
 def getjson():
@@ -109,6 +110,27 @@ def whatcms_api():
     #whatcms_result= {"url": "aaa", "totle": "bbb"}
     return jsonify([whatcms_result])
 
+#whatweb使用
+@api.route('/whatweb', methods=['post'])
+def whatweb_api():
+    time.sleep(3)
+    whatcms_load = getjson()
+    whatcms_url = whatcms_load[0]['url']
+    command="whatweb "+whatcms_url
+    whatcms_result=os.system(command)
+    #whatcms_result_2={"url":whatcms_url,"totle":whatcms_result}
+    #whatcms_result= {"url": "aaa", "totle": "bbb"}
+    return jsonify([whatcms_result])
+
+# nmap
+@api.route('/tool_nmap', methods=['post'])
+def tool_nmap_api():
+    whatcms_load = getjson()
+    whatcms_url = whatcms_load[0]['target']
+    command = "nmap -sV -Pn -p0-65535 "+whatcms_url
+    os.system(command)
+    return jsonify([whatcms_result])
+
 
 # 信息泄露
 @api.route('/information', methods=['post'])
@@ -205,6 +227,12 @@ def Angelsword_api():
 def subdomain_api():
     domain_json=getjson()
     return requests.get("http://ce.baidu.com/index/getRelatedSites?site_address={domain}".format(domain=domain_json['domain'])).text
+
+@api.route('/subdomain2',methods=['post'])
+def subdomain_Broken():
+    domain_json=getjson()
+    return requests.get("http://ce.baidu.com/index/getRelatedSites?site_address={domain}".format(domain=domain_json['domain'])).text
+
 
 @api.route('/nmap',methods=['post'])
 def nmap_api():

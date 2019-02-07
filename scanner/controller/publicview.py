@@ -2,6 +2,7 @@ from ..app import app,render_template,request,re,Markup,plugins,session
 from ..orm import db_session
 from ..model.user import User
 from ..plugins.gwhatcms.gwhatcms import gwhatweb
+import os
 
 @app.route('/')
 @app.route('/index')
@@ -48,8 +49,21 @@ def cms_scan():
 def AngelSword_scan():
     return render_template('AngelSword.html', title='AngelSword安全检测', data=Markup((list(plugins.angelsword['cmspocdict'].keys()))+(list(plugins.angelsword['systempocdict'].keys()))+(list(plugins.angelsword['hardwarepocdict'].keys()))+(list(plugins.angelsword['hardwarepocdict'].keys()))))
 
+
+@app.route('/subdomain')
 def subdomain():
     return render_template('subdomain.html',title='子域名获取')
+
+@app.route('/tool_nmap')
+def tool_nmap():
+    return render_template('tool_nmap.html',title='nmap获取')
+
+
+
+@app.route('/subdomain2')
+def subdomain2():
+    return render_template('subdomain2.html',title='子域名获取')
+
 
 @app.route('/getdomain')
 def getdomin():
@@ -62,6 +76,17 @@ def hackertarget():
 @app.route('/nmap')
 def nmap():
     return render_template('nmap.html',title='nmap扫描')
+
+@app.route('/explain')
+def explain():
+    return render_template('explain.html',title='explain')
+
+@app.route('/whatweb')
+def whatweb():
+    url = request.form.get("url", "http://www.baidu.com")
+    command = "whatweb " + url
+    whatcms_result = os.system(command)
+    return render_template('whatweb.html',data=whatcms_result,title='whatweb')
 
 
 @app.route('/login',methods=['get','post'])

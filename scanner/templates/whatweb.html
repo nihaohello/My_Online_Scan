@@ -10,7 +10,7 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
-            <form method="post" action="/whatcms" id="inputform">
+            <form method="post" action="/whatweb" id="inputform">
 			<div class="input-group input-group-lg">
 				<input type="text" id="url" class="form-control" aria-label="..." name="url">
 				<div class="input-group-btn">
@@ -33,6 +33,7 @@
                             </tr>
                         </thead>
                     <tbody id="t_body">
+                    {{data}}
                     <!--output-->
                     </tbody>
                     </table>
@@ -70,36 +71,4 @@
     });
 </script>
 -->
-<script type="text/javascript">
-var add_res="";
-var query="/api/whatweb"
-var temp="没有whatweb命令，kali自带，也可apt-get install whatweb安装"
-function requestss(url){
-    $("#t_body").html(JSON.stringify([{"url":url}]))
-    $("#result").html("运行脚本时间较长，等一下:");
-    $.post(query,JSON.stringify([{"url":url}]),function (results){
-        $("#result").html("获取中:");
-        if(results){
-            add_res="<tr><td>"+JSON.stringify(results)+"</td></tr>";
-            $("#t_body").html(add_res);
-        }else{
-            add_res="<tr><td>"+temp+"</td></tr>";
-            $("#t_body").html(add_res);
-        }
-        $("#result").html("获取结束");
-    },"json");
-}
-
-$(function() {
-    $("#getwebdna").click(function() {
-        add_res="";
-        $("#t_body").html("")
-        var url=$("#url").val();
-        if(urlcheck()){
-            requestss(url);
-        }
-    });
-});
-
-    </script>
 {% endblock %}

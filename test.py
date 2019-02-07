@@ -1,4 +1,4 @@
 import os
-current_path = os.path.dirname(__file__)
-print(current_path)
-print(type(current_path))
+import requests
+s=requests.get("http://api.hackertarget.com/reversedns/?q=http://www.baidu.com")
+print s.text

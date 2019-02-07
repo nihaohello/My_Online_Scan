@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="text-wrap">
-				百度云观测子域名查询
+				subdomain子域名爆破
 			</div>
 		</div>
 	</div>
@@ -24,13 +24,12 @@
 				<div id="colo" class="panel panel-primary">
                     <div class="panel-heading" id="ti">提示：<a href="#" id="download" class="btn btn-success hidden" download="result.txt">导出</a></div>
                         <div class="panel-body" id="notice" style="word-wrap:break-word; word-break:break-all;display:block">
-						    百度云观测接口，不怎么准，大站有些用。。。
+						    利用subDomainsBrute进行域名爆破，开先测试了下百度，速度没法说，效果不是很好，要用记得sub脚本是python2写的，用2to3转成python3，就先搁置到这，推荐layer4.2典藏版爆破，那个字典是真棒<br><br>（毕竟写这个根本目的是方便实用）
 					    </div>
                     <table class="table table-hover hidden" id="resultTable">
                         <thead>
                             <tr>
                                 <th>域名</th>
-                                <th>优先级</th>
                             </tr>
                         </thead>
                     <tbody id="t_body">
@@ -49,7 +48,7 @@
 	</div>
 </div>
 <script>
-subdomainapi="/api/subdomain"
+subdomainapi="/api/subdomain2"
 table=$('#resultTable')
 output=""
 function request(domain){
@@ -80,7 +79,8 @@ function request(domain){
 
 $(function() {
     $('#searchsubdomain').click(function() {
-            request($("#domain").val())
+            /*request($("#domain").val())*/
+        alert("暂无需求，用其他的吧");
     });
 });
 </script>
